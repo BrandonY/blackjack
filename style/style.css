@@ -1,0 +1,49 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#table {
+    position: relative;
+    width: 100%;
+    height: 667px;
+    z-index: -10;
+}
+
+#back {
+    position: absolute;
+    z-index: -9;
+    height: 145px;
+    margin-left: -780px;
+    margin-top: 98px;
+}
+
+#dealer {
+    position: absolute;
+    z-index: -8;
+    height: 140px;
+    margin-left: -720px;
+    margin-top: 100px;
+    border-radius: 5px;
+
+}
+
+#playerOne {
+    position: absolute;
+    z-index: -7;
+    height: 140px;
+    margin-left: -800px;
+    margin-top: 450px;
+    border-radius: 5px;
+
+}
+
+#playerTwo {
+    position: absolute;
+    z-index: -6;
+    height: 140px;
+    margin-left: -700px;
+    margin-top: 450px;
+    border-radius: 5px;
+
+}
