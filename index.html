@@ -9,8 +9,10 @@
 </head>
 <body>
     <img id="table" src="/images/table.jpg" alt="table">
-    <img id="back" src="/images/cards/back.png">
+    <img id="back" class="backCard" src="/images/cards/back.png">
     <img id="dealer" src="">
+    <img id="dealerTwo" src="">
+    <img id="dealerThree" src="">
     <img id="playerOne" src="">
     <img id="playerTwo" src="">
     <img id="playerThree" src="">
@@ -22,15 +24,17 @@
 
     <div id="commandContainer">
         <button id="hit" onclick="hit()">Hit</button>
-        <button id="check">Check</button>
+        <button id="check" onclick="check()">Check</button>
         <button id="double">Double</button>
     </div>
 
     <div id="betContainer">
         <i id="up" onclick="increase()"></i>
         <div id="bet">20</div>
-        <i id="down" onclick="decrese()" ></i>
+        <i id="down" onclick="decrease()" ></i>
     </div>
+
+    <div id="winMessage">You Win!</div>
 
 </body>
 <script src="/script/script.js"></script>

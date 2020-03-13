@@ -10,12 +10,21 @@ html, body {
     z-index: -10;
 }
 
-#back {
+.backCard {
     position: absolute;
     z-index: -9;
     height: 145px;
     margin-left: -780px;
     margin-top: 98px;
+}
+
+.backAfter {
+    position: absolute;
+    z-index: -9;
+    height: 140px;
+    margin-left: -820px;
+    margin-top: 100px;
+    border-radius: 5px;
 }
 
 #dealer {
@@ -25,7 +34,24 @@ html, body {
     margin-left: -720px;
     margin-top: 100px;
     border-radius: 5px;
+}
 
+#dealerTwo {
+    position: absolute;
+    z-index: -7;
+    height: 140px;
+    margin-left: -620px;
+    margin-top: 100px;
+    border-radius: 5px;
+}
+
+#dealerThree {
+    position: absolute;
+    z-index: -6;
+    height: 140px;
+    margin-left: -520px;
+    margin-top: 100px;
+    border-radius: 5px;
 }
 
 #playerOne {
@@ -110,6 +136,10 @@ button {
     border-radius: 10px;
 }
 
+button:focus {
+    outline: 0;
+}
+
 #betContainer {
     position: absolute;
     bottom: 80px;
@@ -139,4 +169,11 @@ i {
 
 #down {
     transform: rotate(45deg);
+}
+
+#winMessage {
+    position: absolute;
+    bottom: 47vh;
+    left: 42vw;
+    font-size: 50px;
 }

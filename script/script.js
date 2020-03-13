@@ -90,11 +90,12 @@ function selectCardDealer(){
 }
 
 function hit(){
-    if (hitClicks === 0) {hitOne(), hitClicks++};
-    if (hitClicks === 1) {hitTwo(), hitClicks++};
-    if (hitClicks === 2) {hitThree(), hitClicks++};
-    if (hitClicks === 3) {hitFour(), hitClicks++};
-    console.log(hitClicks)
+    if (hitClicks === 0) {hitOne()};
+    if (hitClicks === 1) {hitTwo()};
+    if (hitClicks === 2) {hitThree()};
+    if (hitClicks === 3) {hitFour()};
+    hitClicks++
+
 }
 
 function hitOne(){
@@ -116,6 +117,17 @@ function hitFour(){
     let rndCard = Math.floor(Math.random() * 51 );
     document.getElementById("playerSix").src = cards[rndCard]
 };
+
+function check(){
+    let rndCardOne = Math.floor(Math.random() * 51 );
+    let rndCardTwo = Math.floor(Math.random() * 51 );
+    let rndCardThree = Math.floor(Math.random() * 51 );
+    document.getElementById("dealerTwo").src = cards[rndCardOne];
+    document.getElementById("dealerThree").src = cards[rndCardTwo];
+    document.getElementById("back").src = cards[rndCardThree];
+    document.getElementById("back").classList.remove("back");
+    document.getElementById("back").classList.add("backAfter");
+}
 
 selectCardOne();
 selectCardTwo();
