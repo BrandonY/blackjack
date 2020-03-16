@@ -171,7 +171,7 @@ i {
     transform: rotate(45deg);
 }
 
-#winMessage {
+#message {
     position: absolute;
     bottom: 47vh;
     left: 42vw;

@@ -1,15 +1,4 @@
-let bet_div = document.getElementById("bet");
-let playerTwo = document.getElementById("playerTwo")
-let playerThree = document.getElementById("playerThree")
-let playerFour = document.getElementById("playerFour")
-let playerFive = document.getElementById("playerFive")
-let playerSix = document.getElementById("playerSix")
-let betAmmount = 20;
-let hitClicks = 0;
-
-
 let cards = ["/images/cards/2C.jpg",
-"/images/cards/2C.jpg",
 "/images/cards/3C.jpg",
 "/images/cards/4C.jpg",
 "/images/cards/5C.jpg",
@@ -18,11 +7,11 @@ let cards = ["/images/cards/2C.jpg",
 "/images/cards/8C.jpg",
 "/images/cards/9C.jpg",
 "/images/cards/10C.jpg",
-"/images/cards/JC.jpg", 
+"/images/cards/JC.jpg",
 "/images/cards/QC.jpg",
 "/images/cards/KC.jpg",
 "/images/cards/AC.jpg",
-"/images/cards/2D.jpg",
+"/images/cards/2D.jpg",  
 "/images/cards/3D.jpg",
 "/images/cards/4D.jpg",
 "/images/cards/5D.jpg",
@@ -63,75 +52,111 @@ let cards = ["/images/cards/2C.jpg",
 "/images/cards/AH.jpg",
 ];
 
+let cardsValue = [2,3,4,5,6,7,8,9,10,10,10,10,11,2,3,4,5,6,7,8,9,10,10,10,10,11,2,3,4,5,6,7,8,9,10,10,10,10,11,2,3,4,5,6,7,8,9,10,10,10,10,11];
+let bet_div = document.getElementById("bet");
+let playerTwo = document.getElementById("playerTwo");
+let playerThree = document.getElementById("playerThree");
+let playerFour = document.getElementById("playerFour");
+let playerFive = document.getElementById("playerFive");
+let playerSix = document.getElementById("playerSix");
+let hit_button = document.getElementById("hit");
 
 function increase(){
-    betAmmount++
+    betAmmount++;
     bet_div.innerHTML = betAmmount;    
 }
 
 function decrease(){
-    betAmmount--
+    betAmmount--;
     bet_div.innerHTML = betAmmount;
 }
 
-function selectCardOne(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerOne").src = cards[rndCard];
+function playerGame(){
+    let rndCardPlayerOne = Math.floor(Math.random() * 51 );
+    let rndCardPlayerTwo = Math.floor(Math.random() * 51 );
+    let rndCardPlayerThree = Math.floor(Math.random() * 51 );
+    let rndCardPlayerFour = Math.floor(Math.random() * 51 );
+    let rndCardPlayerFive = Math.floor(Math.random() * 51 );
+    let rndCardPlayerSix = Math.floor(Math.random() * 51 );
+
+    let cardValueOne = cardsValue[rndCardPlayerOne];
+    let cardValueTwo = cardsValue[rndCardPlayerTwo];
+    let cardValueThree = cardsValue[rndCardPlayerThree];
+    let cardValueFour = cardsValue[rndCardPlayerFour];
+    let cardValueFive = cardsValue[rndCardPlayerFive];
+    let cardValueSix = cardsValue[rndCardPlayerSix];
+
+    document.getElementById("playerOne").src = cards[rndCardPlayerOne];
+    document.getElementById("playerTwo").src = cards[rndCardPlayerTwo];
+
+    hit_button.addEventListener(`click`, function(){
+
+        hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)});
+
+    if (cardValueOne + cardValueTwo === 21){winMessage()};
 }
 
-function selectCardTwo(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerTwo").src = cards[rndCard];
-}
+function hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+
+    document.getElementById("playerThree").src = cards[rndCardPlayerThree]
+    hit_button.addEventListener(`click`, function(){
+
+        hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+    })
+};
+
+function hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+
+    document.getElementById("playerFour").src = cards[rndCardPlayerFour];
+    hit_button.addEventListener(`click`, function(){
+
+        hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+    })
+};
+
+function hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+
+    document.getElementById("playerFive").src = cards[rndCardPlayerFive]
+    hit_button.addEventListener(`click`, function(){
+
+        hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+
+    })
+};
+
+function hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour, rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueThree, cardValueFour, cardValueFive, cardValueSixOne){
+
+    document.getElementById("playerSix").src = cards[rndCardPlayerSix]
+};
 
 function selectCardDealer(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("dealer").src = cards[rndCard];
+    let rndCardDealer = Math.floor(Math.random() * 51 );
+    document.getElementById("dealer").src = cards[rndCardDealer];
 }
-
-function hit(){
-    if (hitClicks === 0) {hitOne()};
-    if (hitClicks === 1) {hitTwo()};
-    if (hitClicks === 2) {hitThree()};
-    if (hitClicks === 3) {hitFour()};
-    hitClicks++
-
-}
-
-function hitOne(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerThree").src = cards[rndCard]
-};
-
-function hitTwo(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerFour").src = cards[rndCard]
-};
-
-function hitThree(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerFive").src = cards[rndCard]
-};
-
-function hitFour(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("playerSix").src = cards[rndCard]
-};
 
 function check(){
-    let rndCardOne = Math.floor(Math.random() * 51 );
-    let rndCardTwo = Math.floor(Math.random() * 51 );
-    let rndCardThree = Math.floor(Math.random() * 51 );
-    document.getElementById("dealerTwo").src = cards[rndCardOne];
-    document.getElementById("dealerThree").src = cards[rndCardTwo];
-    document.getElementById("back").src = cards[rndCardThree];
-    document.getElementById("back").classList.remove("back");
+    let rndCard = Math.floor(Math.random() * 51 );
+    document.getElementById("back").src = cards[rndCard];
     document.getElementById("back").classList.add("backAfter");
 }
 
-selectCardOne();
-selectCardTwo();
+function cardOne(){
+    let rndCardOne = Math.floor(Math.random() * 51 );
+    document.getElementById("dealerThree").src = cards[rndCardOne];
+}
+function cardTwo(){
+    let rndCardTwo = Math.floor(Math.random() * 51 );
+    document.getElementById("dealerTwo").src = cards[rndCardTwo];
+}
+
+function bankBallance(){
+    let betValue = document.getElementById("bet").value;
+    let bet = parseInt(betValue, 100);
+}
+
+function winMessage(){
+    document.getElementById("message").innerHTML = "Blackjack! You Win"
+}
+
+playerGame();
 selectCardDealer();
-
-
-
