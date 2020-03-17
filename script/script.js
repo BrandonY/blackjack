@@ -59,7 +59,10 @@ let playerThree = document.getElementById("playerThree");
 let playerFour = document.getElementById("playerFour");
 let playerFive = document.getElementById("playerFive");
 let playerSix = document.getElementById("playerSix");
-let hit_button = document.getElementById("hit");
+const hit_button = document.getElementById("hit");
+const check_button = document.getElementById("check");
+const double_button = document.getElementById("double");
+let betAmmount = 20;
 
 function increase(){
     betAmmount++;
@@ -71,7 +74,17 @@ function decrease(){
     bet_div.innerHTML = betAmmount;
 }
 
-function playerGame(){
+function selectCards(){
+    let rndCardDealerOne = Math.floor(Math.random() * 51 );
+    let rndCardDealerTwo = Math.floor(Math.random() * 51 );
+    let rndCardDealerThree = Math.floor(Math.random() * 51 );
+    let rndCardDealerFour = Math.floor(Math.random() * 51 );
+
+    let dealerCardValueOne = cardsValue[rndCardDealerOne];
+    let dealerCardValueTwo = cardsValue[rndCardDealerTwo];
+    let dealerCardValueThree = cardsValue[rndCardDealerThree];
+    let dealerCardValueFour = cardsValue[rndCardDealerFour];
+
     let rndCardPlayerOne = Math.floor(Math.random() * 51 );
     let rndCardPlayerTwo = Math.floor(Math.random() * 51 );
     let rndCardPlayerThree = Math.floor(Math.random() * 51 );
@@ -80,83 +93,147 @@ function playerGame(){
     let rndCardPlayerSix = Math.floor(Math.random() * 51 );
 
     let cardValueOne = cardsValue[rndCardPlayerOne];
-    let cardValueTwo = cardsValue[rndCardPlayerTwo];
-    let cardValueThree = cardsValue[rndCardPlayerThree];
-    let cardValueFour = cardsValue[rndCardPlayerFour];
-    let cardValueFive = cardsValue[rndCardPlayerFive];
-    let cardValueSix = cardsValue[rndCardPlayerSix];
+    let cardValueTwo = cardsValue[rndCardPlayerTwo];     
+
+    document.getElementById("dealer").src = cards[rndCardDealerTwo];
+
+    check_button.addEventListener(`click`, function(){
+        
+        check(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo)});
 
     document.getElementById("playerOne").src = cards[rndCardPlayerOne];
     document.getElementById("playerTwo").src = cards[rndCardPlayerTwo];
 
     hit_button.addEventListener(`click`, function(){
 
-        hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)});
+        hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo)});
 
     if (cardValueOne + cardValueTwo === 21){winMessage()};
 }
 
-function hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+function hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo){
+
+    let cardValueThree = cardsValue[rndCardPlayerThree];
 
     document.getElementById("playerThree").src = cards[rndCardPlayerThree]
     hit_button.addEventListener(`click`, function(){
 
-        hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+        hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree)
     })
+
+    if (cardValueOne + cardValueTwo + cardValueThree > 21) {loseMessageBust()}
 };
 
-function hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+function hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree){
+
+    let cardValueFour = cardsValue[rndCardPlayerFour];
 
     document.getElementById("playerFour").src = cards[rndCardPlayerFour];
     hit_button.addEventListener(`click`, function(){
 
-        hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+        hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour)
     })
+
+    if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour > 21) {loseMessageBust()}
 };
 
-function hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+function hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour){
 
+    let cardValueFive = cardsValue[rndCardPlayerFive];
+   
     document.getElementById("playerFive").src = cards[rndCardPlayerFive]
     hit_button.addEventListener(`click`, function(){
 
-        hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree,  cardValueThree, cardValueFour, cardValueFive, cardValueSix)
+        hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive)
 
     })
+
+    if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive > 21) {loseMessageBust()}
 };
 
-function hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour, rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueThree, cardValueFour, cardValueFive, cardValueSixOne){
+function hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour, rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive){
+
+    let cardValueSix = cardsValue[rndCardPlayerSix];
 
     document.getElementById("playerSix").src = cards[rndCardPlayerSix]
+
+    if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix > 21) {loseMessageBust()}
+
 };
 
-function selectCardDealer(){
-    let rndCardDealer = Math.floor(Math.random() * 51 );
-    document.getElementById("dealer").src = cards[rndCardDealer];
-}
+function check(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
 
-function check(){
-    let rndCard = Math.floor(Math.random() * 51 );
-    document.getElementById("back").src = cards[rndCard];
+    document.getElementById("back").src = cards[rndCardDealerOne];
     document.getElementById("back").classList.add("backAfter");
+
+    let playerValue = cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix;
+
+    console.log(playerValue);
+
+    if (dealerCardValueFour + dealerCardValueTwo > playerValue ) {loseMessageDealerHigher()}   
+
+    if (dealerCardValueOne + dealerCardValueTwo <= 17) 
+    {checkTwo(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix)};
+
+    if (dealerCardValueOne + dealerCardValueTwo === 21) {loseMessageDealer()};
+    if (dealerCardValueOne + dealerCardValueTwo > 21) {winMessageBust()};    
 }
 
-function cardOne(){
-    let rndCardOne = Math.floor(Math.random() * 51 );
-    document.getElementById("dealerThree").src = cards[rndCardOne];
-}
-function cardTwo(){
-    let rndCardTwo = Math.floor(Math.random() * 51 );
-    document.getElementById("dealerTwo").src = cards[rndCardTwo];
+function checkTwo(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+
+    document.getElementById("dealerTwo").src = cards[rndCardDealerThree];
+
+    if (dealerCardValueFour + dealerCardValueTwo > cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix) {loseMessageDealerHigher()}; 
+
+    if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree < 17) 
+    
+    {checkThree(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix)};
+
+    if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree > 21) {winMessageBust()}
 }
 
-function bankBallance(){
-    let betValue = document.getElementById("bet").value;
-    let bet = parseInt(betValue, 100);
+function checkThree(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+
+    document.getElementById("dealerThree").src = cards[rndCardDealerFour];
+
+    if (dealerCardValueFour + dealerCardValueTwo > cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix) {loseMessageDealerHigher()}; 
+
+    if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree + dealerCardValueFour > 21) {winMessageBust()}
+}
+
+function winMessageBust(){
+    document.getElementById("message").innerHTML = "Dealer Has Bust! You Win"
+    hit_button.disabled = true;
+    check_button.disabled = true;
+    double_button.disabled = true;
 }
 
 function winMessage(){
     document.getElementById("message").innerHTML = "Blackjack! You Win"
+    hit_button.disabled = true;
+    check_button.disabled = true;
+    double_button.disabled = true;
 }
 
-playerGame();
-selectCardDealer();
+function loseMessageDealer(){
+    document.getElementById("message").innerHTML = "Dealer Got Blackjack! Dealer Wins"
+    hit_button.disabled = true;
+    check_button.disabled = true;
+    double_button.disabled = true;
+}
+
+function loseMessageDealerHigher(){
+    document.getElementById("message").innerHTML = "Dealer has   Dealer Wins"
+    hit_button.disabled = true;
+    check_button.disabled = true;
+    double_button.disabled = true;
+}
+
+function loseMessageBust(){
+    document.getElementById("message").innerHTML = "You Bust! Dealer Wins"
+    hit_button.disabled = true;
+    check_button.disabled = true;
+    double_button.disabled = true;
+}
+
+selectCards();
