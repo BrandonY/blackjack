@@ -6,109 +6,109 @@ html, body {
 #table {
     position: relative;
     width: 100%;
-    height: 667px;
+    height: 100vh;
     z-index: -10;
 }
 
 .backCard {
     position: absolute;
     z-index: -9;
-    height: 145px;
-    margin-left: -780px;
-    margin-top: 98px;
+    height: 20vh;
+    margin-left: -50vw;
+    margin-top: 10vh;
 }
 
-.backAfter {
+/* .backAfter {
     position: absolute;
     z-index: -9;
     height: 140px;
     margin-left: -820px;
     margin-top: 100px;
     border-radius: 5px;
-}
+} */
 
-#dealer {
+/* #dealer {
     position: absolute;
     z-index: -8;
-    height: 140px;
-    margin-left: -720px;
-    margin-top: 100px;
+    height: 15vh;
+    margin-left: -50vw;
+    margin-top: 10vh;
     border-radius: 5px;
-}
+} */
 
-#dealerTwo {
+ #dealerTwo {
     position: absolute;
-    z-index: -7;
-    height: 140px;
-    margin-left: -620px;
-    margin-top: 100px;
+    z-index: -8;
+    height: 20vh;
+    margin-left: 44vw;
+    top: 10vh;
     border-radius: 5px;
 }
 
 #dealerThree {
     position: absolute;
     z-index: -6;
-    height: 140px;
-    margin-left: -520px;
-    margin-top: 100px;
+    height: 20vh;
+    margin-left: 40vw;
+    top: 10vh;
     border-radius: 5px;
 }
 
 #playerOne {
     position: absolute;
     z-index: -7;
-    height: 140px;
-    margin-left: -800px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 42vw;
     border-radius: 5px;
-
+    bottom: 0;
 }
 
 #playerTwo {
     position: absolute;
     z-index: -6;
-    height: 140px;
-    margin-left: -700px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 45vw;
     border-radius: 5px;
-
+    bottom: 2vh;
 }
 
 #playerThree {
     position: absolute;
     z-index: -5;
-    height: 140px;
-    margin-left: -600px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 48vw;
     border-radius: 5px;
+    bottom: 4vh;
 }
 
 #playerFour {
     position: absolute;
     z-index: -4;
-    height: 140px;
-    margin-left: -500px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 51vw;
     border-radius: 5px;
+    bottom: 6vh;
 }
 
 #playerFive {
     position: absolute;
     z-index: -3;
-    height: 140px;
-    margin-left: -400px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 54vw;
     border-radius: 5px;
+    bottom: 8vh;
 }
 
 #playerSix {
     position: absolute;
     z-index: -2;
-    height: 140px;
-    margin-left: -300px;
-    margin-top: 450px;
+    height: 20vh;
+    margin-left: 57vw;
     border-radius: 5px;
+    bottom: 10vh;
 }
+
+
 
 #bank {
     position: absolute;
@@ -176,4 +176,4 @@ i {
     bottom: 47vh;
     left: 42vw;
     font-size: 50px;
-}
+} 
