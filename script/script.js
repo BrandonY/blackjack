@@ -111,6 +111,7 @@ let checkTwo = false;
 let checkThree = false;
 let playerBust = false;
 let dealerBust = false;
+let canDouble = true;
 
 
 check_button.onclick = function(){DealerShowCard()};
@@ -302,11 +303,23 @@ function DealerDrawSix(){
     DealerResult();
 }
 
+// Double 
+
+function Double(){
+
+    if (canDouble){
+        betAmmount = betAmmount * 2;
+        DissableButtons();
+        HitOne();
+        DealerShowCard();
+    }
+}
+
 // Checks
 
 function DealerResult(){
     
-    if ( dealerTotalValue > 21){
+    if (dealerTotalValue > 21){
         DealerBust();
     }
 
@@ -352,6 +365,7 @@ function PlayerBustCheck(){
         DissableButtons();
         DealerShowCard();
     }
+
 }
 
 function PlayerBlackjackCheck(){
@@ -367,6 +381,10 @@ function Increase(){
 
     if (bankBallance > 0){
         IncreaseBet();
+
+        if ( betAmmount > bankBallance){
+            canDouble = false;
+        }
     }
 }
 
@@ -374,6 +392,10 @@ function Decrease(){
 
     if (betAmmount > 0){
         DecreaseBet();
+
+        if ( betAmmount > bankBallance){
+            canDouble = false;
+        }
     }
 }
 
@@ -398,6 +420,7 @@ function DecreaseBet(){
 function Draw(){
 
     message_div.innerHTML = "Push";
+
 }
 
 function DealerWins(){
@@ -406,7 +429,7 @@ function DealerWins(){
     bankBallance = bankBallance - betAmmount;
     bank_div.innerHTML = "Bank £" + bankBallance;
 
-    if (bankBallance <= 0){
+    if (bankBallance < 0){
         bank_div.innerHTML = "Bank £" + 0;
         restart_button.style.visibility = "visible";
         deal_button.style.visibility = "hidden";
@@ -428,6 +451,13 @@ function DealerBlackjack(){
     message_div.innerHTML = "Dealer has 21! Dealer wins"
     bankBallance = bankBallance - betAmmount;
     bank_div.innerHTML = "Bank £" + bankBallance;
+
+    if (bankBallance < 0){
+        bank_div.innerHTML = "Bank £" + 0;
+        restart_button.style.visibility = "visible";
+        deal_button.style.visibility = "hidden";
+        DissableButtons();
+    }
 }
 
 function PlayerBlackjack(){
@@ -449,7 +479,7 @@ function PlayerBust(){
     message_div.style.visibility = "visible";
     message_div.innerHTML = "You went bust! Dealer wins"
 
-    if (bankBallance <= 0){
+    if (bankBallance < 0){
         bank_div.innerHTML = "Bank £" + 0;
         restart_button.style.visibility = "visible";
         deal_button.style.visibility = "hidden";
@@ -508,6 +538,7 @@ function DealAgain(){
     sumDealer = 0;
 
     hitCounter = 0;
+    betAmmount = 20;
     dealerBust = false;
     playerBust = false;
 
