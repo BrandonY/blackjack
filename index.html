@@ -9,10 +9,12 @@
 </head>
 <body>
     <img id="table" src="/images/table.jpg" alt="table">
-    <img id="back" class="backCard" src="/images/cards/back.png">
-    <img id="dealer" src="">
+    <img id="back" class="backCard" src="">
     <img id="dealerTwo" src="">
     <img id="dealerThree" src="">
+    <img id="dealerFour" src="">
+    <img id="dealerFive" src="">
+    <img id="dealerSix" src="">
     <img id="playerOne" src="">
     <img id="playerTwo" src="">
     <img id="playerThree" src="">
@@ -20,7 +22,7 @@
     <img id="playerFive" src="">
     <img id="playerSix" src="">
 
-    <div id="bank">Bank £200</div>
+    <div id="bank"></div>
 
     <div id="commandContainer">
         <button id="hit">Hit</button>
@@ -29,13 +31,17 @@
     </div>
 
     <div id="betContainer">
-        <i id="up" onclick="increase()"></i>
-        <div id="bet">20</div>
-        <i id="down" onclick="decrease()" ></i>
+        <i id="up" onclick="Increase()"></i>
+        <div id="bet"></div>
+        <i id="down" onclick="Decrease()" ></i>
     </div>
 
     <div id="message"></div>
-
+    <div id="dealAgainContainer">
+        <button id="dealButton" onclick="DealAgain()">Deal again</button>
+        <button id="restartButton" onclick="Reload()">Try again</button>
+    </div>
+    
 </body>
 <script src="/script/script.js"></script>
 </html>

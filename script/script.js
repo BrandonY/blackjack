@@ -57,29 +57,104 @@ let cardsValue = [2,3,4,5,6,7,8,9,10,10,10,10,11,
     2,3,4,5,6,7,8,9,10,10,10,10,11,
     2,3,4,5,6,7,8,9,10,10,10,10,11];
 
-let bet_div = document.getElementById("bet");
-let playerTwo = document.getElementById("playerTwo");
-let playerThree = document.getElementById("playerThree");
-let playerFour = document.getElementById("playerFour");
-let playerFive = document.getElementById("playerFive");
-let playerSix = document.getElementById("playerSix");
+let playerOneValue = 0;
+let playerTwoValue = 0;
+let playerThreeValue = 0;
+let playerFourValue = 0;
+let playerFiveValue = 0;
+let playerSixValue = 0;
+let sumPlayer = 0;
+
+let dealerOneValue = 0;
+let dealerTwoValue = 0;
+let dealerThreeValue = 0;
+let dealerFourValue = 0;
+let dealerFiveValue = 0;
+let dealerSixValue = 0;
+let sumDealer = 0;
+
 const hit_button = document.getElementById("hit");
 const check_button = document.getElementById("check");
 const double_button = document.getElementById("double");
+let message_div = document.getElementById("message");
+let bank_div = document.getElementById("bank");
+let bet_div = document.getElementById("bet");
+let bet_up = document.getElementById("up");
+let bet_down = document.getElementById("down");
+let deal_button = document.getElementById("dealButton");
+let restart_button = document.getElementById("restartButton");
+
+
+let player_one = document.getElementById("playerOne");
+let player_two = document.getElementById("playerTwo");
+let player_three = document.getElementById("playerThree");
+let player_four = document.getElementById("playerFour");
+let player_five = document.getElementById("playerFive");
+let player_six = document.getElementById("playerSix");
+
+let dealer_back = document.getElementById("back");
+let dealer_two = document.getElementById("dealerTwo");
+let dealer_three = document.getElementById("dealerThree");
+let dealer_four = document.getElementById("dealerFour");
+let dealer_five = document.getElementById("dealerFive");
+let dealer_six = document.getElementById("dealerSix");
+
+
+let bankBallance = 180;
+let hitCounter = 0;
 let betAmmount = 20;
 const arrayLength = 20;
 
-// select 20 random values
+let hasChecked = false;
+let checkOne = false;
+let checkTwo = false;
+let checkThree = false;
+let playerBust = false;
+let dealerBust = false;
 
-hit_button.onclick = function(){Hit()};
-check_button.onclick = function(){Check()};
+
+check_button.onclick = function(){DealerShowCard()};
 double_button.onclick = function(){Double()};
 
+// select 20 random values
+
+hit_button.addEventListener('click', function (event) {
+
+    target = event.target;
+    switch(hitCounter){
+        case 0:
+            HitOne();
+            break;
+        case 1:
+            HitTwo();
+            break;
+        case 2:
+            HitThree();
+            break;
+        case 3:
+            HitFour();
+            break;
+    }   
+})
 
 function Main(){
 
+    bet_up.style.visibility = "visible";
+    bet_down.style.visibility = "visible";
+    bet_div.style.visibility = "visible";
+    hit_button.style.visibility = "visible";
+    check_button.style.visibility = "visible";
+    double_button.style.visibility = "visible";
+    deal_button.style.visibility = "hidden";
+    message_div.style.visibility = "hidden";
+    restart_button.style.visibility = "hidden";
+
     numberselected =  Uint8Array.from(Array(arrayLength)).map( x => (Math.random() * 51));
-    SelectCards(numberselected);
+  
+    bank_div.innerHTML = "Bank £" + bankBallance;
+    bet_div.innerHTML = betAmmount;
+
+    SelectCards();
 }
 
 // Set values to the img src
@@ -108,256 +183,340 @@ function SelectCards(){
     playerNine = numberselected[18]
     playerTen = numberselected[19]
 
-    document.getElementById("dealerTwo").src = cardsImage[dealerTwo];
-    document.getElementById("playerOne").src = cardsImage[playerOne];
-    document.getElementById("playerTwo").src = cardsImage[playerTwo];
+    player_one.src = cardsImage[playerOne];
+    player_two.src = cardsImage[playerTwo];
+    dealer_two.src = cardsImage[dealerTwo];
 
-    FirstCheck(playerOne, playerTwo, dealerOne, dealerTwo);
+    InitialCheck();
 }
 
-function FirstCheck(){
+// Main logic
+
+function InitialCheck(){
 
     playerOneValue = cardsValue[playerOne];
     playerTwoValue = cardsValue[playerTwo];
+    playerTotalValue = playerOneValue + playerTwoValue;
+
     dealerOneValue = cardsValue[dealerOne];
     dealerTwoValue = cardsValue[dealerTwo];
+    dealerTotalValue = dealerOneValue + dealerTwoValue;
 
-    if (dealerOneValue + dealerTwoValue == 21){
-        DealerBlackjack();
-    }
-
-    if (playerOneValue + playerTwoValue == 21){
+    if (playerTotalValue == 21){
         PlayerBlackjack();
     }
-   
 }
 
-function Hit(){
+function HitOne(){
 
-    document.getElementById("playerThree").src = cardsImage[playerThree];
+    bet_up.style.visibility = "hidden";
+    bet_down.style.visibility = "hidden";
+    bet_div.style.visibility = "hidden";
+    player_three.src = cardsImage[playerThree];
+    playerThreeValue = cardsValue[playerThree];
+    playerTotalValue = playerTotalValue + playerThreeValue;
+    hitCounter++   
+    PlayerBustCheck();
 }
 
+function HitTwo(){
 
+    player_four.src = cardsImage[playerFour];
+    playerFourValue = cardsValue[playerFour];
+    playerTotalValue = playerTotalValue + playerFourValue;
+    hitCounter++  
+    PlayerBustCheck();
+}
+
+function HitThree(){
+
+    player_five.src = cardsImage[playerFive];
+    playerFiveValue = cardsValue[playerFive];
+    playerTotalValue = playerTotalValue + playerFiveValue;
+    hitCounter++   
+    PlayerBustCheck();
+}
+
+function HitFour(){
+
+    player_six.src = cardsImage[playerSix];
+    playerSixValue = cardsValue[playerSix];
+    playerTotalValue = playerTotalValue + playerSixValue;
+    hitCounter++   
+    PlayerBustCheck();
+}
+
+// Dealer draws
+
+function DealerShowCard(){
+
+    DissableButtons();
+
+    dealer_back.src = cardsImage[dealerOne];
+
+    if (dealerTotalValue <= 16){
+        DealerDrawThree();
+    }
+    if (dealerTotalValue == 21){
+        DealerBlackjack();
+    }   
+    else {
+        WinnerCheck();
+    }
+
+    deal_button.style.visibility = "visible";
+}
+
+function DealerDrawThree(){
+
+    dealer_three.src = cardsImage[dealerThree];
+    dealerThreeValue = cardsValue[dealerThree]
+    dealerTotalValue = dealerTotalValue + dealerThreeValue;
+    checkOne = true;
+    DealerResult();
+}
+
+function DealerDrawFour(){
+
+    dealer_four.src = cardsImage[dealerFour];
+    dealerFourValue = cardsValue[dealerFour]
+    dealerTotalValue = dealerTotalValue + dealerFourValue;
+    checkTwo = true;
+    DealerResult();
+}
+
+function DealerDrawFive(){
+
+    dealer_five.src = cardsImage[dealerFive];
+    dealerFiveValue = cardsValue[dealerFive]
+    dealerTotalValue = dealerTotalValue + dealerFiveValue;
+    checkThree = true;
+    DealerResult();
+}
+
+function DealerDrawSix(){
+
+    dealer_six.src = cardsImage[dealerSix];
+    dealerSixValue = cardsValue[dealerSix]
+    dealerTotalValue = dealerTotalValue + dealerSixValue;
+    DealerResult();
+}
+
+// Checks
+
+function DealerResult(){
+    
+    if ( dealerTotalValue > 21){
+        DealerBust();
+    }
+
+    if (dealerTotalValue <= 16 && checkOne){
+        checkOne = false;
+        DealerDrawFour();
+    }
+
+    if (dealerTotalValue <= 16 && checkTwo){
+        checkTwo = false;
+        DealerDrawFive();
+    }
+
+    if (dealerTotalValue <= 16 && checkThree){
+        checkThree = false;
+        DealerDrawSix();
+    }
+}
+
+function WinnerCheck(){
+
+    message_div.style.visibility = "visible";
+
+    if (dealerTotalValue > playerTotalValue && !dealerBust){
+        DealerWins();
+    }
+
+    if (dealerTotalValue == playerTotalValue){
+        Draw();
+    }
+    if (dealerTotalValue < playerTotalValue && !playerBust){
+        PlayerWins();
+    }
+}
+
+function PlayerBustCheck(){
+
+    if (playerTotalValue > 21){
+        PlayerBust();
+    }
+
+    if (playerTotalValue == 21){
+        DissableButtons();
+        DealerShowCard();
+    }
+}
+
+function PlayerBlackjackCheck(){
+
+    if (dealerOneValue + dealerTwoValue == 21 && hasChecked){
+        DealerBlackjack();
+    }
+}
 
 // Increase and decrese bets
 
-function increase(){
+function Increase(){
+
+    if (bankBallance > 0){
+        IncreaseBet();
+    }
+}
+
+function Decrease(){
+
+    if (betAmmount > 0){
+        DecreaseBet();
+    }
+}
+
+function IncreaseBet(){
 
     betAmmount++;
-    bet_div.innerHTML = betAmmount;    
+    bankBallance--;
+    bet_div.innerHTML = betAmmount;  
+    bank_div.innerHTML = "Bank £" + bankBallance;
 }
 
-function decrease(){
+function DecreaseBet(){
 
     betAmmount--;
+    bankBallance++
     bet_div.innerHTML = betAmmount;
+    bank_div.innerHTML = "Bank £" + bankBallance;
 }
 
+// Win or lose
+
+function Draw(){
+
+    message_div.innerHTML = "Push";
+}
+
+function DealerWins(){
+
+    message_div.innerHTML = "Dealer has " + dealerTotalValue + ". Dealer wins"
+    bankBallance = bankBallance - betAmmount;
+    bank_div.innerHTML = "Bank £" + bankBallance;
+
+    if (bankBallance <= 0){
+        bank_div.innerHTML = "Bank £" + 0;
+        restart_button.style.visibility = "visible";
+        deal_button.style.visibility = "hidden";
+        DissableButtons();
+    }
+}
+
+function PlayerWins(){
+
+    message_div.innerHTML = "Dealer has " + dealerTotalValue + ". You win"
+    bankBallance = bankBallance + betAmmount;
+    bank_div.innerHTML = "Bank £" + bankBallance; 
+    DissableButtons();
+}
 
 function DealerBlackjack(){
 
-    document.getElementById("message").innerHTML = "Dealer has blackjack! Dealer wins"
-    hit_button.disabled = true;
-    check_button.disabled = true;
-    double_button.disabled = true;
+    message_div.style.visibility = "visible";
+    message_div.innerHTML = "Dealer has 21! Dealer wins"
+    bankBallance = bankBallance - betAmmount;
+    bank_div.innerHTML = "Bank £" + bankBallance;
 }
 
 function PlayerBlackjack(){
 
-    document.getElementById("message").innerHTML = "Blackjack! You Win"
-    hit_button.disabled = true;
-    check_button.disabled = true;
-    double_button.disabled = true;
+    message_div.innerHTML = "Blackjack! You win"
+    bankBallance = bankBallance + (betAmmount * 2);
+    bank_div.innerHTML = "Bank £" + bankBallance;
+    DissableButtons();
+    deal_button.style.visibility = "visible";
+    message_div.style.visibility = "visible";
 }
 
-// function winMessageBust(){
-//     document.getElementById("message").innerHTML = "Dealer Has Bust! You Win"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
+function PlayerBust(){
 
+    playerBust = true;
+    bankBallance = bankBallance - betAmmount;
+    bank_div.innerHTML = "Bank £" + bankBallance;
+    deal_button.style.visibility = "visible";
+    message_div.style.visibility = "visible";
+    message_div.innerHTML = "You went bust! Dealer wins"
 
+    if (bankBallance <= 0){
+        bank_div.innerHTML = "Bank £" + 0;
+        restart_button.style.visibility = "visible";
+        deal_button.style.visibility = "hidden";
+        DissableButtons();
+    }
+    DissableButtons();
+}
 
+function DealerBust(){
 
+   dealerBust = true; 
+   message_div.innerHTML = "Dealer has bust! you win."
+   bankBallance = bankBallance + betAmmount;
+   bank_div.innerHTML = "Bank £" + bankBallance;
+}
 
-// function loseMessageDealerHigher(){
-//     document.getElementById("message").innerHTML = "Dealer has   Dealer Wins"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
-
-// function loseMessageBust(){
-//     document.getElementById("message").innerHTML = "You Bust! Dealer Wins"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
-
-// function selectDealerCards()
-// {
-//     let cardDealerOne = cardSellected;
-//     let cardDealerTwo = cardSellected;
-//     let cardDealerThree = cardSellected;
-//     let cardDealerFour = cardSellected;
-//     console.log(cardDealerFour, cardDealerOne, cardDealerTwo, cardDealerThree)
-// }
-
-//     let dealerCardValueOne = cardsValue[rndCardDealerOne];
-//     let dealerCardValueTwo = cardsValue[rndCardDealerTwo];
-//     let dealerCardValueThree = cardsValue[rndCardDealerThree];
-//     let dealerCardValueFour = cardsValue[rndCardDealerFour];
-
-//     let rndCardPlayerOne = Math.floor(Math.random() * 51 );
-//     let rndCardPlayerTwo = Math.floor(Math.random() * 51 );
-//     let rndCardPlayerThree = Math.floor(Math.random() * 51 );
-//     let rndCardPlayerFour = Math.floor(Math.random() * 51 );
-//     let rndCardPlayerFive = Math.floor(Math.random() * 51 );
-//     let rndCardPlayerSix = Math.floor(Math.random() * 51 );
-
-//     let cardValueOne = cardsValue[rndCardPlayerOne];
-//     let cardValueTwo = cardsValue[rndCardPlayerTwo];     
-
-//     document.getElementById("dealer").src = cards[rndCardDealerTwo];
-
-//     check_button.addEventListener(`click`, function(){
-        
-//         check(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo)});
-
-//     document.getElementById("playerOne").src = cards[rndCardPlayerOne];
-//     document.getElementById("playerTwo").src = cards[rndCardPlayerTwo];
-
-//     hit_button.addEventListener(`click`, function(){
-
-//         hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo)});
-
-//     if (cardValueOne + cardValueTwo === 21){winMessage()};
-// }
-
-// function hitOne(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo){
-
-//     let cardValueThree = cardsValue[rndCardPlayerThree];
-
-//     document.getElementById("playerThree").src = cards[rndCardPlayerThree]
-//     hit_button.addEventListener(`click`, function(){
-
-//         hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree)
-//     })
-
-//     if (cardValueOne + cardValueTwo + cardValueThree > 21) {loseMessageBust()}
-// };
-
-// function hitTwo(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree){
-
-//     let cardValueFour = cardsValue[rndCardPlayerFour];
-
-//     document.getElementById("playerFour").src = cards[rndCardPlayerFour];
-//     hit_button.addEventListener(`click`, function(){
-
-//         hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour)
-//     })
-
-//     if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour > 21) {loseMessageBust()}
-// };
-
-// function hitThree(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour){
-
-//     let cardValueFive = cardsValue[rndCardPlayerFive];
-   
-//     document.getElementById("playerFive").src = cards[rndCardPlayerFive]
-//     hit_button.addEventListener(`click`, function(){
-
-//         hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour,   rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive)
-
-//     })
-
-//     if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive > 21) {loseMessageBust()}
-// };
-
-// function hitFour(rndCardPlayerOne, rndCardPlayerTwo, rndCardPlayerThree, rndCardPlayerFour, rndCardPlayerFive, rndCardPlayerSix, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive){
-
-//     let cardValueSix = cardsValue[rndCardPlayerSix];
-
-//     document.getElementById("playerSix").src = cards[rndCardPlayerSix]
-
-//     if (cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix > 21) {loseMessageBust()}
-
-// };
-
-// function check(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
-
-//     document.getElementById("back").src = cards[rndCardDealerOne];
-//     document.getElementById("back").classList.add("backAfter");
-
-//     let playerValue = cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix;
-
-//     console.log(playerValue);
-
-//     if (dealerCardValueFour + dealerCardValueTwo > playerValue ) {loseMessageDealerHigher()}   
-
-//     if (dealerCardValueOne + dealerCardValueTwo <= 17) 
-//     {checkTwo(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix)};
-
-//     if (dealerCardValueOne + dealerCardValueTwo === 21) {loseMessageDealer()};
-//     if (dealerCardValueOne + dealerCardValueTwo > 21) {winMessageBust()};    
-// }
-
-// function checkTwo(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
-
-//     document.getElementById("dealerTwo").src = cards[rndCardDealerThree];
-
-//     if (dealerCardValueFour + dealerCardValueTwo > cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix) {loseMessageDealerHigher()}; 
-
-//     if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree < 17) 
+function DissableButtons(){
     
-//     {checkThree(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix)};
+    hit_button.style.visibility = "hidden";
+    check_button.style.visibility = "hidden";
+    double_button.style.visibility = "hidden";
+    bet_up.style.visibility = "hidden";
+    bet_down.style.visibility = "hidden";
+    bet_div.style.visibility = "hidden";
+}
 
-//     if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree > 21) {winMessageBust()}
-// }
+function DealAgain(){
 
-// function checkThree(rndCardDealerOne, rndCardDealerThree, rndCardDealerFour, dealerCardValueOne, dealerCardValueTwo, dealerCardValueThree, dealerCardValueFour, cardValueOne, cardValueTwo, cardValueThree, cardValueFour, cardValueFive, cardValueSix){
+    player_one.src = "";
+    player_two.src = "";
+    player_three.src = "";
+    player_four.src = "";
+    player_five.src = "";
+    player_six.src = "";
 
-//     document.getElementById("dealerThree").src = cards[rndCardDealerFour];
+    dealer_back.src = "";
+    dealer_two.src = "";
+    dealer_three.src = "";
+    dealer_four.src = "";
+    dealer_five.src = "";
+    dealer_six.src = "";
+    
+    playerOneValue = 0;
+    playerTwoValue = 0;
+    playerThreeValue = 0;
+    playerFourValue = 0;
+    playerFiveValue = 0;
+    playerSixValue = 0;
+    sumPlayer = 0;
+    dealerOneValue = 0;
+    dealerTwoValue = 0;
+    dealerThreeValue = 0;
+    dealerFourValue = 0;
+    dealerFiveValue = 0;
+    dealerSixValue = 0;
+    sumDealer = 0;
 
-//     if (dealerCardValueFour + dealerCardValueTwo > cardValueOne + cardValueTwo + cardValueThree + cardValueFour + cardValueFive + cardValueSix) {loseMessageDealerHigher()}; 
+    hitCounter = 0;
+    dealerBust = false;
+    playerBust = false;
 
-//     if (dealerCardValueOne + dealerCardValueTwo + dealerCardValueThree + dealerCardValueFour > 21) {winMessageBust()}
-// }
+    Main();
+}
 
-// function winMessageBust(){
-//     document.getElementById("message").innerHTML = "Dealer Has Bust! You Win"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
+function Reload(){
 
-// function winMessage(){
-//     document.getElementById("message").innerHTML = "Blackjack! You Win"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
-
-// function loseMessageDealer(){
-//     document.getElementById("message").innerHTML = "Dealer Got Blackjack! Dealer Wins"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
-
-// function loseMessageDealerHigher(){
-//     document.getElementById("message").innerHTML = "Dealer has   Dealer Wins"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
-
-// function loseMessageBust(){
-//     document.getElementById("message").innerHTML = "You Bust! Dealer Wins"
-//     hit_button.disabled = true;
-//     check_button.disabled = true;
-//     double_button.disabled = true;
-// }
+    window.location.reload();
+}
 
 Main();
